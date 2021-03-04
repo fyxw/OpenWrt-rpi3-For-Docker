@@ -7,7 +7,7 @@
 # https://github.com/P3TERX/Actions-OpenWrt
 # Description: Build OpenWrt using GitHub Actions
 #
-
+# 添加注释，便于查阅
 name: Build OpenWrt
 
 on:
@@ -16,7 +16,7 @@ on:
     inputs:
       ssh:
         description: 'SSH connection to Actions'
-        required: false
+        required: true
         default: 'false'
 
 env:
@@ -41,6 +41,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
+    # 安装编译依赖，依赖文件来源，git.io/depends-ubuntu-1804
+    # 创建工作目录
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -54,6 +56,7 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
+    # 克隆源码
     - name: Clone source code
       working-directory: /workdir
       run: |
@@ -61,6 +64,7 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
+    # 加载feeds文件，并调用DIY_P1
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -74,6 +78,7 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
+    # 加载定制文件，file文件会替换到具有相同相对文件路径的目录下
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
