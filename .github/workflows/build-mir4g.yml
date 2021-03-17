@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 # 添加注释，便于查阅
-name: Build OpenWrt
+name: Build OpenWrt for mir4g
 
 on:
   repository_dispatch:
