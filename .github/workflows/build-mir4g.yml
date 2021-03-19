@@ -89,7 +89,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
         if [ -e $GITHUB_WORKSPACE/diy-scripts/$TARGET ]
         then
-          for script in $GITHUB_WORKSPACE/diy-scripts/*
+          for script in $GITHUB_WORKSPACE/diy-scripts/$TARGET/*
           do
             chmod +x $script
             $script
